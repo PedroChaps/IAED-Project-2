@@ -26,7 +26,8 @@
 #define ERROR2 "no data\n"
 
 #define LAST_CALL 1
-
+#define FOUND 1
+#define NOT_FOUND 0
 #define MAX_LEN_COMMAND strlen(COMMAND8)
 #define MAX_LEN_COMMAND_I strlen(COMMAND3_I)
 #define COMMAND_NR 8
@@ -52,5 +53,7 @@ char COMMAND_LST_I[COMMAND_NR][100] = {COMMAND1_I,
 void help();
 void find(char *path, S_Link *Table, int M);
 void print_all_hierarchy(Link head);
+void list(char *path, S_Link *Table, int M);
+void set(char *path, char *val, S_Link *Table, int M);
 
 #endif //IAEDPROJ2_MAIN_FUNCTIONS_H

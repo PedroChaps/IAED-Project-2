@@ -41,7 +41,7 @@ struct simple_node {
 typedef struct simple_node* S_Link;
 
 
-
+char *get_last_path(char *complete_path);
 Link create_list();
 Link list_insert_right_end(Link head, Link x);
 void print_list(Link head);

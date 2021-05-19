@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/pedro/Desktop/IAEDproj2/hash.h
+list.h
+C:/Users/pedro/Desktop/IAEDproj2/list.h
+
+C:/Users/pedro/Desktop/IAEDproj2/list.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+hash.h
+C:/Users/pedro/Desktop/IAEDproj2/hash.h
+
+C:/Users/pedro/Desktop/IAEDproj2/main.c
+main_functions.h
+C:/Users/pedro/Desktop/IAEDproj2/main_functions.h
+
+C:/Users/pedro/Desktop/IAEDproj2/main_functions.h
+list.h
+C:/Users/pedro/Desktop/IAEDproj2/list.h
+

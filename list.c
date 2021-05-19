@@ -24,19 +24,25 @@ Link new_node(char *path, char *val, Link parent, S_Link* table){
     x->path_name = (char *) malloc(sizeof(char) * (strlen(path) + 1));
     verify_memory(x->path_name);
     strcpy(x->path_name, path);
+    if (val != NULL) {
     x->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
     verify_memory(x->value);
     strcpy(x->value, val);
+    }
+    else {
+        x->value = NULL;
+    }
+
     x->next_down = (x -> next_right = NULL);
 
     /* Inserts x on the rightest end of the parent's children */
     parent->next_down = list_insert_right_end(parent->next_down, x);
-
+    /* Inserts x on the hash table */
     insert_hash_table(x, table, HASH_SIZE);
     return x;
 }
 
-Link create_list(){
+Link create_list(S_Link* table){
 
     Link head = (Link) malloc(sizeof(Node));
     verify_memory(head);
@@ -49,6 +55,7 @@ Link create_list(){
     head->value = NULL;
     head->next_right = head->next_down = NULL;
 
+    insert_hash_table(head, table, HASH_SIZE);
     return head;
 }
 
@@ -127,20 +134,21 @@ S_Link insert_sorted(Link ptr, S_Link head){
     S_Link aux;
     S_Link new = (S_Link) malloc(sizeof(s_Node));
     new->ptr = ptr;
+    new->next = NULL;
     /* Verifies if list is empty */
     if (head == NULL){
         head = new;
         return head;
     }
     /*Verifies first element */
-    else if (strcmp(ptr->path_name, head->ptr->path_name) < 0){
+    else if (strcmp(get_last_path(ptr->path_name), get_last_path(head->ptr->path_name)) < 0){
         new->next = head;
         head = new;
         return head;
     }
     /*finds the first value in which path_name is lower */
     for (aux = head;
-         aux->next != NULL && strcmp(ptr->path_name, aux->ptr->path_name) > 0;
+         aux->next != NULL && strcmp(get_last_path(ptr->path_name), get_last_path(aux->next->ptr->path_name)) > 0;
          aux = aux->next);
 
     new->next = aux->next;
@@ -190,6 +198,7 @@ void print_list_basic(S_Link head){
     }
     /*prints the list */
     for(; head != NULL; head = head->next){
-        printf("%s", head->ptr->path_name);
+        printf("%s\n", get_last_path(head->ptr->path_name));
     }
+
 }

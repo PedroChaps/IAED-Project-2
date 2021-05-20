@@ -13,9 +13,13 @@ CMakeFiles/IAEDproj2.dir/main.c.obj: ../hash.h
 CMakeFiles/IAEDproj2.dir/main.c.obj: ../list.h
 CMakeFiles/IAEDproj2.dir/main.c.obj: ../main.c
 CMakeFiles/IAEDproj2.dir/main.c.obj: ../main_functions.h
+CMakeFiles/IAEDproj2.dir/main.c.obj: ../terminal_read.h
 
 CMakeFiles/IAEDproj2.dir/main_functions.c.obj: ../hash.h
 CMakeFiles/IAEDproj2.dir/main_functions.c.obj: ../list.h
 CMakeFiles/IAEDproj2.dir/main_functions.c.obj: ../main_functions.c
 CMakeFiles/IAEDproj2.dir/main_functions.c.obj: ../main_functions.h
+
+CMakeFiles/IAEDproj2.dir/terminal_read.c.obj: ../terminal_read.c
+CMakeFiles/IAEDproj2.dir/terminal_read.c.obj: ../terminal_read.h
 

@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "C:/Users/pedro/Desktop/IAEDproj2/list.c" "C:/Users/pedro/Desktop/IAEDproj2/cmake-build-debug/CMakeFiles/IAEDproj2.dir/list.c.obj"
   "C:/Users/pedro/Desktop/IAEDproj2/main.c" "C:/Users/pedro/Desktop/IAEDproj2/cmake-build-debug/CMakeFiles/IAEDproj2.dir/main.c.obj"
   "C:/Users/pedro/Desktop/IAEDproj2/main_functions.c" "C:/Users/pedro/Desktop/IAEDproj2/cmake-build-debug/CMakeFiles/IAEDproj2.dir/main_functions.c.obj"
+  "C:/Users/pedro/Desktop/IAEDproj2/terminal_read.c" "C:/Users/pedro/Desktop/IAEDproj2/cmake-build-debug/CMakeFiles/IAEDproj2.dir/terminal_read.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

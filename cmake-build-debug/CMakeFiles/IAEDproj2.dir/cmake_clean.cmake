@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/IAEDproj2.dir/list.c.obj"
   "CMakeFiles/IAEDproj2.dir/main.c.obj"
   "CMakeFiles/IAEDproj2.dir/main_functions.c.obj"
+  "CMakeFiles/IAEDproj2.dir/terminal_read.c.obj"
   "IAEDproj2.exe"
   "IAEDproj2.exe.manifest"
   "IAEDproj2.pdb"

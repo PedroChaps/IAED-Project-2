@@ -33,7 +33,7 @@ void insert_hash_table(Link node_ptr, S_Link *Table, int M){
 }
 
 /* Find a value associated to a node pointer in the hash table */
-Link find_hash_value(char* path, S_Link *Table, int M){
+Link find_hash_value(char *path, S_Link *Table, int M){
     /* Hashes the path to find the index where it belongs */
     int i = hash(path, M);
 
@@ -42,4 +42,10 @@ Link find_hash_value(char* path, S_Link *Table, int M){
     Link ptr = search_list_by_path(Table[i], path);
 
     return ptr;
+}
+
+void remove_from_hash_table(Link node_ptr, S_Link *Table, int M){
+
+    int i = hash(node_ptr->path_name, M);
+    Table[i] = remove_elem(Table[i], node_ptr);
 }

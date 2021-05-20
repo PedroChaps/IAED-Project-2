@@ -55,5 +55,7 @@ void find(char *path, S_Link *Table, int M);
 void print_all_hierarchy(Link head);
 void list(char *path, S_Link *Table, int M);
 void set(char *path, char *val, S_Link *Table, int M);
-
+void delete(char *path, S_Link *Table, int M);
+void WIP_print_all_hierarchy_including_no_values(Link head);
+void quit(S_Link *Table, int M);
 #endif //IAEDPROJ2_MAIN_FUNCTIONS_H

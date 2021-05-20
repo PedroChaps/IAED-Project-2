@@ -1,5 +1,7 @@
 #include "list.h"
 
+
+
 Link list_insert_end(Link head, char* text);
 Link list_insert_right_end(Link head, Link x);
 
@@ -25,9 +27,9 @@ Link new_node(char *path, char *val, Link parent, S_Link* table){
     verify_memory(x->path_name);
     strcpy(x->path_name, path);
     if (val != NULL) {
-    x->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
-    verify_memory(x->value);
-    strcpy(x->value, val);
+        x->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
+        verify_memory(x->value);
+        strcpy(x->value, val);
     }
     else {
         x->value = NULL;
@@ -117,6 +119,58 @@ void print_list(Link head){
 }
 
 
+Link search_list_by_path(S_Link head, char *path){
+
+    S_Link t;
+    for(t = head; t != NULL; t = t->next)
+        if(strcmp(t->ptr->path_name, path) == 0)
+            return t->ptr;
+    return NULL;
+
+}
+
+
+Link remove_node_right(Link head, Link node_rm){
+    Link t, prev;
+    for(t = head, prev = NULL; t != NULL; prev = t, t = t->next_right) {
+        if(t == node_rm) {
+            if(t == head)
+                head = t->next_right;
+            else
+                prev->next_right = t->next_right;
+            break;
+        }
+    }
+    return head;
+}
+
+
+/* Frees a node and all the nodes to his right and down.
+
+    ROOT
+     |
+     V
+     * -> * -> * -> *
+     |              |
+     V              V
+     * -> *         * -> * -> *
+
+ * */
+
+Link free_node(Link node){
+
+    free(node->path_name);
+    //free(node->value);
+
+    node->path_name = NULL;
+    node->value = NULL;
+
+    free(node);
+    node = NULL;
+
+    return node;
+}
+
 /* --------------------- Simple List -------------------------- */
 S_Link create_simple_list(){
 
@@ -179,6 +233,7 @@ S_Link insertBegin(S_Link head, Link node_ptr)
 /* Searches a list for a specified path.
  * Returns the node pointer that points to the path.
  * If it doesn't exist, returns NULL. */
+/*
 Link search_list_by_path(S_Link head, char *path){
 
     S_Link t;
@@ -188,7 +243,7 @@ Link search_list_by_path(S_Link head, char *path){
     return NULL;
 
 }
-
+*/
 /* Only prints the paths stored on the node pointers of each element of the
  * list */
 void print_list_basic(S_Link head){
@@ -201,4 +256,20 @@ void print_list_basic(S_Link head){
         printf("%s\n", get_last_path(head->ptr->path_name));
     }
 
+}
+
+S_Link remove_elem(S_Link head, Link ptr_rm){
+    S_Link t, prev;
+
+    for(t = head, prev = NULL; t != NULL; prev = t, t = t->next) {
+        if(t->ptr == ptr_rm) {
+            if(t == head)
+                head = t->next;
+            else
+                prev->next = t->next;
+            free(t);
+            break;
+        }
+    }
+    return head;
 }

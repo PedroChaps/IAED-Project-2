@@ -6,7 +6,7 @@
 #define IAEDPROJ2_HASH_H
 
 
-#define HASH_SIZE 5000
+#define HASH_SIZE 7919
 
 #include "list.h"
 
@@ -15,7 +15,7 @@
 S_Link* create_hash_table();
 void insert_hash_table(Link node_ptr, S_Link *Table, int M);
 Link find_hash_value(char* path, S_Link *Table, int M);
-
+void remove_from_hash_table(Link node_ptr, S_Link *Table, int M);
 
 
 

@@ -95,6 +95,12 @@
 		<Unit filename="C:/Users/pedro/Desktop/IAEDproj2/main_functions.h">
 			<Option target="IAEDproj2"/>
 		</Unit>
+		<Unit filename="C:/Users/pedro/Desktop/IAEDproj2/terminal_read.c">
+			<Option target="IAEDproj2"/>
+		</Unit>
+		<Unit filename="C:/Users/pedro/Desktop/IAEDproj2/terminal_read.h">
+			<Option target="IAEDproj2"/>
+		</Unit>
 		<Unit filename="C:/Users/pedro/Desktop/IAEDproj2/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

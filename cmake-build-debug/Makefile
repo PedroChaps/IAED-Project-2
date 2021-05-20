@@ -250,6 +250,33 @@ main_functions.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\IAEDproj2.dir\build.make CMakeFiles/IAEDproj2.dir/main_functions.c.s
 .PHONY : main_functions.c.s
 
+terminal_read.obj: terminal_read.c.obj
+
+.PHONY : terminal_read.obj
+
+# target to build an object file
+terminal_read.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\IAEDproj2.dir\build.make CMakeFiles/IAEDproj2.dir/terminal_read.c.obj
+.PHONY : terminal_read.c.obj
+
+terminal_read.i: terminal_read.c.i
+
+.PHONY : terminal_read.i
+
+# target to preprocess a source file
+terminal_read.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\IAEDproj2.dir\build.make CMakeFiles/IAEDproj2.dir/terminal_read.c.i
+.PHONY : terminal_read.c.i
+
+terminal_read.s: terminal_read.c.s
+
+.PHONY : terminal_read.s
+
+# target to generate assembly for a file
+terminal_read.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\IAEDproj2.dir\build.make CMakeFiles/IAEDproj2.dir/terminal_read.c.s
+.PHONY : terminal_read.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -271,6 +298,9 @@ help:
 	@echo ... main_functions.obj
 	@echo ... main_functions.i
 	@echo ... main_functions.s
+	@echo ... terminal_read.obj
+	@echo ... terminal_read.i
+	@echo ... terminal_read.s
 .PHONY : help
 
 

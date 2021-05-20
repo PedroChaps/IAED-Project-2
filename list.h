@@ -50,7 +50,7 @@ Link remove_node_right(Link head, Link node_rm);
 Link free_node(Link node);
 
 
-#include "hash.h"
+
 
 
 #endif

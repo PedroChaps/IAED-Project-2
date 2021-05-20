@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+static int nodes_number = 0;
 /* A node is made up of 4 components:
  *      The path's name;
  *      It's value;

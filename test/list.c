@@ -1,7 +1,8 @@
 #include "list.h"
 #include "hash.h"
 
-static int nodes_number = 0;
+
+static Link Hierarchy_lst;
 Link list_insert_end(Link head, char* text);
 Link list_insert_right_end(Link head, Link x);
 

@@ -7,12 +7,12 @@ static S_Link *Value_Table;
 
 
 S_Link* create_path_table(){
-    int i;
+
 
     /*Alloc a pointer which points to HASH_SIZE pointers */
     Path_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
 
-
+    int i;
     /*Resets the hash table entries to only have pointers pointing to NULL */
     for(i = 0; i < HASH_SIZE; i++){
         Path_Table[i] = NULL;
@@ -22,12 +22,11 @@ S_Link* create_path_table(){
 
 S_Link* create_value_table(){
 
-    int i;
 
     /*Alloc a pointer which points to HASH_SIZE pointers */
     Value_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
 
-
+    int i;
     /*Resets the hash table entries to only have pointers pointing to NULL */
     for(i = 0; i < HASH_SIZE; i++){
         Value_Table[i] = NULL;

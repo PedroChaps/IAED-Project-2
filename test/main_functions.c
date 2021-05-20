@@ -143,14 +143,12 @@ void list(char *path){
      * A parallel simple list is created, that stores sorted pointers to the
      * corresponding nodes. Then, prints the list.*/
 
-    Link aux;
-    S_Link temp_lst = NULL;
-
     if (strcmp("", path) == 0) {
         list("/");
         return;
     }
 
+    Link aux;
     /* Verifies first if the path exists and if it has at least one child.  */
     Link ptr = find_hash_node_by_path(path);
     if (ptr == NULL){
@@ -162,7 +160,7 @@ void list(char *path){
     /* Since the path exists and has at least one child, all of it's children
      * will be compared and inserted sorted on a new auxiliary simple list */
 
-
+    S_Link temp_lst = NULL;
 
     for (aux = ptr->next_down; aux != NULL; aux=aux->next_right){
         temp_lst = insert_sorted_by_path(aux, temp_lst);
@@ -193,9 +191,6 @@ void search(char *value){
 /* Deletes a path and all of it's sequential right and down nodes */
 void delete(char *path){
 
-    Link node;
-    Link aux;
-
     /* if path is empty, it means a general delete, deletes
      * everything below Root */
     if (strcmp("\0", path) == 0){
@@ -205,12 +200,12 @@ void delete(char *path){
 
     /*Finds the node associated with path and it's parent (in order to update
      * node's previous node's next). */
-    node = find_hash_node_by_path(path);
+    Link node = find_hash_node_by_path(path);
     if (node == NULL){
         printf("%s", ERROR1);
         return;
     }
-    aux = find_parent_path(node);
+    Link aux = find_parent_path(node);
 
 
     /* Finds the node on the parent->next_down and removes it from the list if
@@ -262,10 +257,10 @@ void create_paths_to_path(char *full_path){
     int cont = 0;
     unsigned long int size;
     Link aux, aux2;
-    char *ptr;
+
     size = strlen(full_path);
     /* Pointer that points to the last character of full_path */
-    ptr = &full_path[size-1];
+    char *ptr = &full_path[size-1];
     /* Changes all the '/' to '\0', tracking how many were changed, until an existing
      * path is found.
      * Eg. /a/b/c/d/e -> /a/b/c/d\0e -> /a/b/c\0d\0e -> ... */
@@ -325,7 +320,7 @@ Link find_parent_path(Link node){
     /* use an auxiliary pointer to find the last '/' and switch it to
      * '\0' temporarily. */
 
-    unsigned size = strlen(node->path_name);
+    unsigned long long int size = strlen(node->path_name);
     char *ptr = &node->path_name[size-1];
     Link aux;
 

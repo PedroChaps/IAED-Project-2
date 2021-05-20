@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/pedro/Desktop/IAEDproj2/hash.c
+hash.h
+C:/Users/pedro/Desktop/IAEDproj2/hash.h
+
 C:/Users/pedro/Desktop/IAEDproj2/hash.h
 list.h
 C:/Users/pedro/Desktop/IAEDproj2/list.h
@@ -13,6 +17,8 @@ C:/Users/pedro/Desktop/IAEDproj2/list.h
 C:/Users/pedro/Desktop/IAEDproj2/list.c
 list.h
 C:/Users/pedro/Desktop/IAEDproj2/list.h
+hash.h
+C:/Users/pedro/Desktop/IAEDproj2/hash.h
 
 C:/Users/pedro/Desktop/IAEDproj2/list.h
 stdio.h
@@ -24,6 +30,12 @@ string.h
 hash.h
 C:/Users/pedro/Desktop/IAEDproj2/hash.h
 
+C:/Users/pedro/Desktop/IAEDproj2/main.c
+main_functions.h
+C:/Users/pedro/Desktop/IAEDproj2/main_functions.h
+terminal_read.h
+C:/Users/pedro/Desktop/IAEDproj2/terminal_read.h
+
 C:/Users/pedro/Desktop/IAEDproj2/main_functions.c
 main_functions.h
 C:/Users/pedro/Desktop/IAEDproj2/main_functions.h
@@ -31,4 +43,14 @@ C:/Users/pedro/Desktop/IAEDproj2/main_functions.h
 C:/Users/pedro/Desktop/IAEDproj2/main_functions.h
 list.h
 C:/Users/pedro/Desktop/IAEDproj2/list.h
+
+C:/Users/pedro/Desktop/IAEDproj2/terminal_read.c
+terminal_read.h
+C:/Users/pedro/Desktop/IAEDproj2/terminal_read.h
+stdio.h
+-
+string.h
+-
+
+C:/Users/pedro/Desktop/IAEDproj2/terminal_read.h
 

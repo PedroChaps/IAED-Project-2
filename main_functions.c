@@ -142,7 +142,7 @@ void list(char *path){
      * alphabetically.
      * A parallel simple list is created, that stores sorted pointers to the
      * corresponding nodes. Then, prints the list.*/
-
+    Link ptr = find_hash_node_by_path(path);
     Link aux;
     S_Link temp_lst = NULL;
 
@@ -152,7 +152,7 @@ void list(char *path){
     }
 
     /* Verifies first if the path exists and if it has at least one child.  */
-    Link ptr = find_hash_node_by_path(path);
+
     if (ptr == NULL){
         printf(ERROR1);
     }

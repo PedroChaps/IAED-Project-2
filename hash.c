@@ -1,5 +1,7 @@
 #include "hash.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 static S_Link *Path_Table;
 static S_Link *Value_Table;

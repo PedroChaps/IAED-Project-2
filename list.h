@@ -2,11 +2,6 @@
 #ifndef IAEDPROJ2_LIST_H
 #define IAEDPROJ2_LIST_H
 
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 /* A node is made up of 4 components:
  *      The path's name;
  *      It's value;

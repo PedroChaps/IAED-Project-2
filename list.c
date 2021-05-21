@@ -1,5 +1,7 @@
 #include "list.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 static int nodes_number;
 Link list_insert_end(Link head, char* text);

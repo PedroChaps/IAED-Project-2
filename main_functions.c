@@ -1,5 +1,7 @@
 #include "main_functions.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void create_paths_to_path(char *path);
 Link find_parent_path(Link node);
@@ -342,7 +344,7 @@ Link find_parent_path(Link node){
 
     size = strlen(node->path_name);
     ptr = &node->path_name[size-1];
-    
+
     /* Finds the last '/' and changes it to '\0' */
     for(; ptr != node->path_name && *ptr != '/' ; ptr--);
 

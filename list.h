@@ -9,7 +9,7 @@
  *      A pointer to the next node on it's right.
 */
 
-struct node {
+typedef struct node {
     char *path_name;
     char *value;
     struct node *next_down;

@@ -4,8 +4,6 @@
 #include <string.h>
 
 static int nodes_number;
-Link list_insert_end(Link head, char* text);
-Link list_insert_right_end(Link head, Link x);
 
 /* WIP meio que copiei por ti Andre ;- ; */
 void verify_memory(void *ptr){

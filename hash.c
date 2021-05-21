@@ -6,6 +6,8 @@
 static S_Link *Path_Table;
 static S_Link *Value_Table;
 
+char *get_last_path(char *complete_path);
+
 Link start_list(){
     Link Hierarchy_lst;
     /* creates both tables */
@@ -262,4 +264,21 @@ Link search_list_by_value(S_Link head, char *value){
 void insert_tables(Link node){
     insert_path_table(node);
     insert_value_table(node);
+}
+
+/* Extracts the last path name of a complete path
+ * Eg: from "/a/b/c" returns "c" */
+char *get_last_path(char *complete_path){
+
+    char *ptr;
+    char *aux;
+
+    ptr = complete_path;
+
+    for(aux = ptr; (*aux) != '\0'; aux++){
+        if ((*aux) == '/'){
+            ptr = aux;
+        }
+    }
+    return ptr+1;
 }

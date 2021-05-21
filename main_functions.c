@@ -248,22 +248,6 @@ void delete(char *path){
 
 
 
-/* Extracts the last path name of a complete path
- * Eg: from "/a/b/c" returns "c" */
-char *get_last_path(char *complete_path){
-
-    char *ptr;
-    char *aux;
-
-    ptr = complete_path;
-
-    for(aux = ptr; (*aux) != '\0'; aux++){
-        if ((*aux) == '/'){
-            ptr = aux;
-        }
-    }
-    return ptr+1;
-}
 
 /* Creates all the missing paths that lead to a path */
 void create_paths_to_path(char *full_path){

@@ -3,12 +3,15 @@
 
 #include "list.h"
 
-struct simple_node {
+
+
+typedef struct simple_node {
     Link ptr;
     struct simple_node *next;
 } s_Node;
 
 typedef struct simple_node* S_Link;
+
 
 
 Link start_list();

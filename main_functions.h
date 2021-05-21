@@ -18,7 +18,7 @@
 #define COMMAND3_I "Adiciona ou modifica o valor a armazenar."
 #define COMMAND4_I "Imprime todos os caminhos e valores."
 #define COMMAND5_I "Imprime o valor armazenado."
-#define COMMAND6_I "Lista todos os componentes de um caminho."
+#define COMMAND6_I "Lista todos os componentes de um sub-caminho."
 #define COMMAND7_I "Procura o caminho dado um valor."
 #define COMMAND8_I "Apaga um caminho e todos os subcaminhos."
 

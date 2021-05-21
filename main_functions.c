@@ -162,6 +162,7 @@ void list(char *path){
 
     if (ptr == NULL){
         printf(ERROR1);
+        return;
     }
     else if (ptr->next_down == NULL){
         return;

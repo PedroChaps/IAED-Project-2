@@ -166,7 +166,7 @@ Link remove_node_right(Link head, Link node_rm){
 Link free_node(Link node){
 
     free(node->path_name);
-    /*WIP free(node->value);*/
+    free(node->value);
 
     node->path_name = NULL;
     node->value = NULL;

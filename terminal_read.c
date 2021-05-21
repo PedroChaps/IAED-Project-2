@@ -44,6 +44,7 @@ int command_read(){
 }
 
 
+
 /* Reads a path, fixing all the slashes */
 int read_path(char Buffer[]){
 

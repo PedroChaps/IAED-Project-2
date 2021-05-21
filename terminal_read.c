@@ -7,6 +7,9 @@
 
 /* Reads a command from the terminal */
 int command_read(){
+    /*
+    char command_buffer[MAX_COMMAND_SIZE];
+     */
     char command_buffer[MAX_COMMAND_SIZE];
     scanf("%s", command_buffer);
 

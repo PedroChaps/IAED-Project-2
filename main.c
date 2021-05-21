@@ -91,15 +91,8 @@ int main() {
     }
 }
 
-/*
-set a 1
-set b 2
-set c 3
-set d/a 5
-set d 5
-set b/a 6
-set a/b 6
-search 6
+
+/* Changes: quit -> comment delete, only exit()
 
 
 

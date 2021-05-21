@@ -6,7 +6,6 @@
 static S_Link *Path_Table;
 static S_Link *Value_Table;
 
-char *get_last_path(char *complete_path);
 
 Link start_list(){
     Link Hierarchy_lst;
@@ -24,7 +23,7 @@ S_Link* create_path_table(){
 
     /*Alloc a pointer which points to HASH_SIZE pointers */
     Path_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
-
+    verify_memory(Path_Table);
 
     /*Resets the hash table entries to only have pointers pointing to NULL */
     for(i = 0; i < HASH_SIZE; i++){
@@ -39,7 +38,7 @@ S_Link* create_value_table(){
 
     /*Alloc a pointer which points to HASH_SIZE pointers */
     Value_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
-
+    verify_memory(Value_Table);
 
     /*Resets the hash table entries to only have pointers pointing to NULL */
     for(i = 0; i < HASH_SIZE; i++){
@@ -137,7 +136,11 @@ S_Link create_simple_list(){
 S_Link insert_sorted_by_path(Link ptr, S_Link head){
 
     S_Link aux;
-    S_Link new = (S_Link) malloc(sizeof(s_Node));
+    S_Link new;
+
+    new = (S_Link) malloc(sizeof(s_Node));
+    verify_memory(new);
+
     new->ptr = ptr;
     new->next = NULL;
 
@@ -166,7 +169,10 @@ S_Link insert_sorted_by_path(Link ptr, S_Link head){
 
 S_Link NEW(Link node_ptr)
 {
-    S_Link x = (S_Link) malloc(sizeof(s_Node));
+    S_Link x;
+
+    x = (S_Link) malloc(sizeof(s_Node));
+    verify_memory(x);
     x->ptr = node_ptr;
     x->next = NULL;
 
@@ -177,7 +183,9 @@ S_Link NEW(Link node_ptr)
 S_Link insertBegin(S_Link head, Link node_ptr)
 {
 
-    S_Link x = NEW(node_ptr);
+    S_Link x;
+
+    x = NEW(node_ptr);
     x->next = head;
     return x;
 }

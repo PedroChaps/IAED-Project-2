@@ -14,7 +14,7 @@ typedef struct node {
     char *value;
     struct node *next_down;
     struct node *next_right;
-    int id;
+    long int id;
 } Node;
 
 typedef struct node* Link;

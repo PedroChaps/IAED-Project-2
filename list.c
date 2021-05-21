@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int nodes_number;
+static long int nodes_number;
 
 /* WIP meio que copiei por ti Andre ;- ; */
 void verify_memory(void *ptr){
@@ -21,7 +21,7 @@ void verify_memory(void *ptr){
 Link new_node(char *path, char *val, Link parent){
 
     Link x = (Link) malloc(sizeof(Node));
-
+    verify_memory(x);
     /* Fills x's information */
     x->path_name = (char *) malloc(sizeof(char) * (strlen(path) + 1));
     verify_memory(x->path_name);

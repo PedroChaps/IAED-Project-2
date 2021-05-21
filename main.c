@@ -30,7 +30,8 @@
 
 int main() {
 
-    Link Hierarchy_lst = create_list();
+
+    Link Hierarchy_lst = start_list();
 
     /*test_stuff(Table, Hierarchy_lst, sorted_list);*/
 

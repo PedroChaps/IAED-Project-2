@@ -31,7 +31,8 @@ void set(char *path, char *val){
 
     /*Verifies first if the path exists */
     /*If it does, only alters it's value */
-    Link ptr = find_hash_node_by_path(path);
+    Link ptr;
+    ptr = find_hash_node_by_path(path);
 
     if (ptr != NULL){
         /* Removes old entry from the value hash table, verifying first if
@@ -116,7 +117,8 @@ void find(char *path){
      * if the path is not found, a NULL pointer is returned.
      * if the path is found but it has no value, it's value is NULL */
 
-    Link ptr = find_hash_node_by_path(path);
+    Link ptr;
+    ptr = find_hash_node_by_path(path);
 
     if (ptr == NULL){
         printf(ERROR1);
@@ -142,9 +144,12 @@ void list(char *path){
      * alphabetically.
      * A parallel simple list is created, that stores sorted pointers to the
      * corresponding nodes. Then, prints the list.*/
-    Link ptr = find_hash_node_by_path(path);
+    Link ptr;
     Link aux;
-    S_Link temp_lst = NULL;
+    S_Link temp_lst;
+
+    ptr = find_hash_node_by_path(path);
+    temp_lst = NULL;
 
     if (strcmp("", path) == 0) {
         list("/");
@@ -245,8 +250,10 @@ void delete(char *path){
  * Eg: from "/a/b/c" returns "c" */
 char *get_last_path(char *complete_path){
 
-    char *ptr = complete_path;
+    char *ptr;
     char *aux;
+
+    ptr = complete_path;
 
     for(aux = ptr; (*aux) != '\0'; aux++){
         if ((*aux) == '/'){
@@ -260,9 +267,11 @@ char *get_last_path(char *complete_path){
 void create_paths_to_path(char *full_path){
     int state = NOT_FOUND;
     int cont = 0;
-    unsigned long int size;
+    unsigned int size;
     Link aux, aux2;
     char *ptr;
+    Link new;
+
     size = strlen(full_path);
     /* Pointer that points to the last character of full_path */
     ptr = &full_path[size-1];
@@ -296,7 +305,8 @@ void create_paths_to_path(char *full_path){
             /* If it, the first path possible, doesn't exist then creates it
              * with the parent being Root */
             aux2 = find_hash_node_by_path("/");
-            new_node(full_path, NULL, aux2);
+            new = new_node(full_path, NULL, aux2);
+            insert_tables(new);
         }
     }
 
@@ -313,7 +323,8 @@ void create_paths_to_path(char *full_path){
         for(; *ptr != '\0'; ptr++);
         *ptr = '/'; cont--;
         /* Creates the new path, without value */
-        new_node(full_path, NULL, aux);
+        new = new_node(full_path, NULL, aux);
+        insert_tables(new);
     }
 }
 
@@ -325,10 +336,13 @@ Link find_parent_path(Link node){
     /* use an auxiliary pointer to find the last '/' and switch it to
      * '\0' temporarily. */
 
-    unsigned size = strlen(node->path_name);
-    char *ptr = &node->path_name[size-1];
+    unsigned int size;
+    char *ptr;
     Link aux;
 
+    size = strlen(node->path_name);
+    ptr = &node->path_name[size-1];
+    
     /* Finds the last '/' and changes it to '\0' */
     for(; ptr != node->path_name && *ptr != '/' ; ptr--);
 

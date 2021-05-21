@@ -1,7 +1,7 @@
 #ifndef IAEDPROJ2_MAIN_FUNCTIONS_H
 #define IAEDPROJ2_MAIN_FUNCTIONS_H
 
-#include "list.h"
+#include "hash.h"
 
 
 #define COMMAND1 "help"

@@ -1,7 +1,7 @@
 #include "list.h"
-#include "hash.h"
 
-static int nodes_number = 0;
+
+static int nodes_number;
 Link list_insert_end(Link head, char* text);
 Link list_insert_right_end(Link head, Link x);
 
@@ -44,17 +44,18 @@ Link new_node(char *path, char *val, Link parent){
     parent->next_down = list_insert_right_end(parent->next_down, x);
 
     /* Inserts x on the hash tables */
-    insert_path_table(x);
-    insert_value_table(x);
     return x;
 }
 
 Link create_list(){
 
 
-    Link head = (Link) malloc(sizeof(Node));
+    Link head;
+    head = (Link) malloc(sizeof(Node));
     verify_memory(head);
 
+
+    nodes_number = 0;
     /* Saves the starting information */
     head->path_name = (char *) malloc(sizeof("/"));
     verify_memory(head->path_name);
@@ -67,11 +68,8 @@ Link create_list(){
 
     head->id = ++nodes_number;
 
-    create_path_table();
-    create_value_table();
+
     /* Inserts the head on the tables */
-    insert_path_table(head);
-    insert_value_table(head);
     return head;
 }
 
@@ -134,33 +132,7 @@ void print_list(Link head){
 }
 */
 
-/* Searches a list for a node that has the specified path */
-Link search_list_by_path(S_Link head, char *path){
 
-    S_Link t;
-    for(t = head; t != NULL; t = t->next)
-        if(strcmp(t->ptr->path_name, path) == 0)
-            return t->ptr;
-    return NULL;
-
-}
-
-/* Searches a list for the oldest node that has the specified value */
-Link search_list_by_value(S_Link head, char *value){
-    Link ptr = NULL;
-    S_Link t;
-    int min = nodes_number;
-    for(t = head; t != NULL; t = t->next)
-        if(strcmp(t->ptr->value, value) == 0)
-            if(t->ptr->id <= min) {
-                /* If the id is less than min, a candidate is found.
-                 * min is updated to the new minimum.*/
-                ptr = t->ptr;
-                min = t->ptr->id;
-            }
-    return ptr;
-
-}
 
 
 

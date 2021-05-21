@@ -4,6 +4,15 @@
 static S_Link *Path_Table;
 static S_Link *Value_Table;
 
+Link start_list(){
+    Link Hierarchy_lst;
+    /* creates both tables */
+    create_path_table();
+    create_value_table();
+    Hierarchy_lst = create_list();
+    insert_tables(Hierarchy_lst);
+    return Hierarchy_lst;
+}
 
 
 S_Link* create_path_table(){
@@ -211,4 +220,44 @@ S_Link remove_elem(S_Link head, Link ptr_rm) {
         }
     }
     return head;
+}
+
+/* Searches a simple list for a node that has the specified path */
+Link search_list_by_path(S_Link head, char *path){
+
+    S_Link t;
+    for(t = head; t != NULL; t = t->next)
+        if(strcmp(t->ptr->path_name, path) == 0)
+            return t->ptr;
+    return NULL;
+
+}
+
+/* Searches a simple list for the oldest node that has the specified value */
+Link search_list_by_value(S_Link head, char *value){
+    Link ptr = NULL;
+    S_Link t;
+    int min;
+    for(t = head; t != NULL; t = t->next)
+        if(strcmp(t->ptr->value, value) == 0) {
+            /* if first value */
+            if (ptr == NULL){
+                ptr = t->ptr;
+                min = t->ptr->id;
+            }
+            /* if not the first value (path has been atributed already) */
+            else if (t->ptr->id <= min) {
+                /* If the id is less than min, a candidate is found.
+                 * min is updated to the new minimum.*/
+                ptr = t->ptr;
+                min = t->ptr->id;
+            }
+        }
+    return ptr;
+
+}
+
+void insert_tables(Link node){
+    insert_path_table(node);
+    insert_value_table(node);
 }

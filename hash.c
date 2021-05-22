@@ -27,10 +27,10 @@ S_Link* create_path_table(){
     Path_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
     check_OOM(Path_Table);
 
+    memset(Path_Table, 0, sizeof(S_Link) * HASH_SIZE);
+
     /*Resets the hash table entries to only have pointers pointing to NULL */
-    for(i = 0; i < HASH_SIZE; i++){
-        Path_Table[i] = NULL;
-    }
+
     return Path_Table;
 }
 
@@ -42,10 +42,8 @@ S_Link* create_value_table(){
     Value_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
     check_OOM(Value_Table);
 
-    /*Resets the hash table entries to only have pointers pointing to NULL */
-    for(i = 0; i < HASH_SIZE; i++){
-        Value_Table[i] = NULL;
-    }
+    memset(Value_Table, 0, sizeof(S_Link) * HASH_SIZE);
+
     return Value_Table;
 }
 

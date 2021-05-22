@@ -21,7 +21,7 @@ Link start_list(){
 
 
 S_Link* create_path_table(){
-    int i;
+
 
     /*Alloc a pointer which points to HASH_SIZE pointers */
     Path_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
@@ -35,9 +35,7 @@ S_Link* create_path_table(){
 }
 
 S_Link* create_value_table(){
-
-    int i;
-
+    
     /*Alloc a pointer which points to HASH_SIZE pointers */
     Value_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
     check_OOM(Value_Table);

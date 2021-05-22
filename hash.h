@@ -39,7 +39,7 @@ Link find_hash_node_by_value(char *value);
 
 void insert_tables(Link node);
 void free_hash_tables();
-#define HASH_SIZE 7919
+#define HASH_SIZE 32479
 
 
 

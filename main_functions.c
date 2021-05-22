@@ -50,7 +50,8 @@ void set(char *path, char *val){
         if (ptr->value != NULL)
             remove_from_value_table(ptr);
 
-        /* Initializes value */
+        /* Frees previous value and initializes a new value */
+        free(ptr->value);
         ptr->value = (char *) malloc(sizeof(char) * strlen(val));
         check_OOM(ptr->value);
 

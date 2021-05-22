@@ -27,7 +27,7 @@ char *get_last_path(char *complete_path);
 
 Link list_insert_right_end(Link head, Link x);
 void print_list(Link head);
-void verify_memory(void *ptr);
+void check_OOM(void *ptr);
 Link new_node(char *path, char *val, Link parent);
 
 Link remove_node_right(Link head, Link node_rm);

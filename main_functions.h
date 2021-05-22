@@ -31,7 +31,7 @@
 
 
 void help();
-void quit();
+void quit(Link Hierarchy_list);
 void set(char *path, char *val);
 void print_all_hierarchy(Link head);
 void find(char *path);

@@ -5,8 +5,10 @@
 
 static long int nodes_number;
 
-/* WIP meio que copiei por ti Andre ;- ; */
-void verify_memory(void *ptr){
+/* Verifies if the program is OOM (out of memory).
+ * This function is only called when memory is allocated, in order to
+ * verify if the pointer returned by Malloc is NULL.*/
+void check_OOM(void *ptr){
     if (ptr == NULL){
         printf("No memory\n");
         exit(EXIT_SUCCESS);
@@ -21,15 +23,15 @@ void verify_memory(void *ptr){
 Link new_node(char *path, char *val, Link parent){
 
     Link x = (Link) malloc(sizeof(Node));
-    verify_memory(x);
+    check_OOM(x);
     /* Fills x's information */
     x->path_name = (char *) malloc(sizeof(char) * (strlen(path) + 1));
-    verify_memory(x->path_name);
+    check_OOM(x->path_name);
     strcpy(x->path_name, path);
 
     if (val != NULL) {
         x->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
-        verify_memory(x->value);
+        check_OOM(x->value);
         strcpy(x->value, val);
     }
     else {
@@ -52,13 +54,13 @@ Link create_list(){
 
     Link head;
     head = (Link) malloc(sizeof(Node));
-    verify_memory(head);
+    check_OOM(head);
 
 
     nodes_number = 0;
     /* Saves the starting information */
     head->path_name = (char *) malloc(sizeof("/"));
-    verify_memory(head->path_name);
+    check_OOM(head->path_name);
 
     strcpy(head->path_name, "/");
 
@@ -165,11 +167,18 @@ Link remove_node_right(Link head, Link node_rm){
 
 Link free_node(Link node){
 
-    free(node->path_name);
-    free(node->value);
+    if (node == NULL)
+        return NULL;
 
-    node->path_name = NULL;
-    node->value = NULL;
+    if(node->path_name != NULL) {
+        free(node->path_name);
+        node->path_name = NULL;
+    }
+
+    if(node->value != NULL) {
+        free(node->value);
+        node->value = NULL;
+    }
 
     free(node);
     node = NULL;

@@ -10,7 +10,7 @@ int command_read(){
     /*
     char command_buffer[MAX_COMMAND_SIZE];
      */
-    char command_buffer[MAX_COMMAND_SIZE];
+    char command_buffer[65000];
     scanf("%s", command_buffer);
 
     if(strcmp(command_buffer, "help") == 0){
@@ -38,11 +38,6 @@ int command_read(){
         return DELETE;
     }
 
-    else if(strcmp(command_buffer, "deletee") == 0){
-        return SHH_DELETE_CANT_SEE_THIS;
-    }
-
-
     return -1;
 }
 
@@ -57,7 +52,7 @@ int read_path(char Buffer[]){
     /*Starts by inserting a slash */
     Buffer[0] = '/';
     /* ignores all the starting spaces */
-    while ((z = getchar()) == ' ');
+    while ((z = getchar()) == ' ' || z =='\t');
     /* ignores all the starting slashes */
     while (z == '/')
         z = getchar();
@@ -95,7 +90,7 @@ void read_value(char Buffer[], int i){
     char z;
 
     /* ignores all the starting spaces */
-    while ((z = getchar()) == ' ');
+    while ((z = getchar()) == ' ' || z == '\t');
 
     /* Fills the buffer */
     while (z != '\n'){

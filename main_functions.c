@@ -21,8 +21,10 @@ void help(){
 
 }
 
-void quit(){
-    /*delete("/");*/
+void quit(Link Hierarchy_list){
+    delete("/");
+    free(Hierarchy_list->path_name);
+    free(Hierarchy_list);
     exit(EXIT_SUCCESS);
 }
 
@@ -49,7 +51,7 @@ void set(char *path, char *val){
 
         /* Initializes value */
         ptr->value = (char *) malloc(sizeof(char) * strlen(val));
-        verify_memory(ptr->value);
+        check_OOM(ptr->value);
 
         strcpy(ptr->value, val);
 
@@ -227,11 +229,16 @@ void delete(char *path){
         printf("%s", ERROR1);
         return;
     }
-    parent = find_parent_path(node);
 
-    /* Finds the node on the parent->next_down and removes it from the list if
-     * not Root */
+    parent = find_parent_path(node);
+    if (parent == NULL || parent->next_down == NULL){
+        return;
+    }
+
+    /* If not root, finds the node on the parent->next_down and removes it from
+     * the list */
     if (strcmp("/", path) != 0) {
+
         parent->next_down = remove_node_right(parent->next_down, node);
 
         /* Frees the node and all of his children and grandchildren.
@@ -245,7 +252,7 @@ void delete(char *path){
 
     /* if the path to be deleted is Root, just has to free every node to the
      * right and down of the first child */
-    else{
+    else {
         free_node_down_right(node->next_down);
         /* Sets the freed node to NULL to have control */
         node->next_down = NULL;
@@ -256,8 +263,7 @@ void delete(char *path){
 
 /* -------------------------- AUX Functions ----------------------------------*/
 
-
-
+/*     size = 7             /a\0b\0ca        */
 
 /* Creates all the missing paths that lead to a path */
 void create_paths_to_path(char *full_path){
@@ -338,6 +344,10 @@ Link find_parent_path(Link node){
     char *ptr;
     Link aux;
 
+    if (node == NULL){
+        return NULL;
+    }
+
     size = strlen(node->path_name);
     ptr = &node->path_name[size-1];
 
@@ -349,7 +359,7 @@ Link find_parent_path(Link node){
         aux = find_hash_node_by_path("/");
     }
     else{
-        /* ptr now points to '/'. Changes it to '\0 */
+        /* ptr now points to '/'. Changes it to '\0' */
         *ptr = '\0';
         /* aux points to the parent */
         aux = find_hash_node_by_path(node->path_name);

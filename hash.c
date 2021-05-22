@@ -5,15 +5,17 @@
 
 static S_Link *Path_Table;
 static S_Link *Value_Table;
-
+void free_list(S_Link head);
 
 Link start_list(){
     Link Hierarchy_lst;
     /* creates both tables */
     create_path_table();
     create_value_table();
+
     Hierarchy_lst = create_list();
     insert_tables(Hierarchy_lst);
+
     return Hierarchy_lst;
 }
 
@@ -23,7 +25,7 @@ S_Link* create_path_table(){
 
     /*Alloc a pointer which points to HASH_SIZE pointers */
     Path_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
-    verify_memory(Path_Table);
+    check_OOM(Path_Table);
 
     /*Resets the hash table entries to only have pointers pointing to NULL */
     for(i = 0; i < HASH_SIZE; i++){
@@ -38,7 +40,7 @@ S_Link* create_value_table(){
 
     /*Alloc a pointer which points to HASH_SIZE pointers */
     Value_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
-    verify_memory(Value_Table);
+    check_OOM(Value_Table);
 
     /*Resets the hash table entries to only have pointers pointing to NULL */
     for(i = 0; i < HASH_SIZE; i++){
@@ -116,22 +118,30 @@ void remove_from_value_table(Link node_ptr){
     int i = hash(node_ptr->value, HASH_SIZE);
     Value_Table[i] = remove_elem(Value_Table[i], node_ptr);
 }
+void free_hash_tables(){
+    int i;
+
+    for(i = 0; i < HASH_SIZE; i++){
+
+        if (Path_Table[i] != NULL){
+            free_list(Path_Table[i]);
+        }
+
+        if (Value_Table[i] != NULL){
+            free_list(Value_Table[i]);
+        }
+
+    }
+}
+
+void insert_tables(Link node){
+    insert_path_table(node);
+    insert_value_table(node);
+}
 
 /* --------------------- Simple List -------------------------- */
 
-/* This type of list is only used on Hash. It's meant to be a simpler list,
- * which only has a pointer to the next node and a pointer to a Complex list
- * pointer. */
-S_Link create_simple_list(){
 
-    S_Link head = (S_Link) malloc(sizeof(s_Node));
-    verify_memory(head);
-
-    head->next = NULL;
-    head->ptr = NULL;
-
-    return head;
-}
 
 S_Link insert_sorted_by_path(Link ptr, S_Link head){
 
@@ -139,7 +149,7 @@ S_Link insert_sorted_by_path(Link ptr, S_Link head){
     S_Link new;
 
     new = (S_Link) malloc(sizeof(s_Node));
-    verify_memory(new);
+    check_OOM(new);
 
     new->ptr = ptr;
     new->next = NULL;
@@ -172,7 +182,8 @@ S_Link NEW(Link node_ptr)
     S_Link x;
 
     x = (S_Link) malloc(sizeof(s_Node));
-    verify_memory(x);
+    check_OOM(x);
+
     x->ptr = node_ptr;
     x->next = NULL;
 
@@ -257,8 +268,8 @@ Link search_list_by_value(S_Link head, char *value){
                 ptr = t->ptr;
                 min = t->ptr->id;
             }
-            /* if not the first value (path has been atributed already) */
-            else if (t->ptr->id <= min) {
+            /* if not the first value (path has been attributed already) */
+            else if (t->ptr->id < min) {
                 /* If the id is less than min, a candidate is found.
                  * min is updated to the new minimum.*/
                 ptr = t->ptr;
@@ -269,10 +280,6 @@ Link search_list_by_value(S_Link head, char *value){
 
 }
 
-void insert_tables(Link node){
-    insert_path_table(node);
-    insert_value_table(node);
-}
 
 /* Extracts the last path name of a complete path
  * Eg: from "/a/b/c" returns "c" */
@@ -289,4 +296,19 @@ char *get_last_path(char *complete_path){
         }
     }
     return ptr+1;
+}
+
+void free_list(S_Link head){
+
+    S_Link ptr;
+
+    ptr = head->next;
+    /* Frees head*/
+    free(head);
+    while(ptr != NULL){
+        head = ptr;
+        ptr = ptr->next;
+        free(head);
+    }
+
 }

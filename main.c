@@ -50,7 +50,7 @@ int main() {
                 break;
 
             case QUIT:
-                quit();
+                quit(Hierarchy_lst);
                 return 0;
                 break;
 
@@ -92,7 +92,8 @@ int main() {
 }
 
 
-/* Changes: quit -> comment delete, only exit()
+/* Tentar descomentar no quit(). Se ganhei 1 teste por causa disso, o bug
+ * deve estar no delete
 
 
 

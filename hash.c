@@ -130,8 +130,9 @@ void free_hash_tables(){
         if (Value_Table[i] != NULL){
             free_list(Value_Table[i]);
         }
-
     }
+    free(Path_Table);
+    free(Value_Table);
 }
 
 void insert_tables(Link node){

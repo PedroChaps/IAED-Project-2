@@ -25,6 +25,7 @@ void quit(Link Hierarchy_list){
     delete("/");
     free(Hierarchy_list->path_name);
     free(Hierarchy_list);
+    free_hash_tables();
     exit(EXIT_SUCCESS);
 }
 

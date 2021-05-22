@@ -137,7 +137,7 @@ void print_list(Link head){
 
 
 
-
+/* The node is not fred on purpose. It is fred afterwards on the main function */
 Link remove_node_right(Link head, Link node_rm){
     Link t, prev;
     for(t = head, prev = NULL; t != NULL; prev = t, t = t->next_right) {

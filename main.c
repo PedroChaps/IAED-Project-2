@@ -58,7 +58,7 @@ int main() {
                 /* Index of where the \0 was inserted on the buffer */
                 i = read_path(buffer);
                 /* Inserts the value on the next index */
-                read_value(buffer, i+1);
+                read_value(buffer_fixed, i+1);
                 aux = &buffer[i+1];
                 set(buffer, aux);
                 break;
@@ -69,25 +69,26 @@ int main() {
 
             case FIND:
                 read_path(buffer);
-                find(buffer);
+                find(buffer_fixed);
                 break;
 
             case LIST:
                 read_path(buffer);
-                list(buffer);
+                list(buffer_fixed);
                 break;
 
             case SEARCH:
                 read_value(buffer, 0);
-                search(buffer);
+                search(buffer_fixed);
                 break;
 
             case DELETE:
                 read_path(buffer);
-                delete(buffer);
+                delete(buffer_fixed);
                 break;
 
         }
+        buffer_fixed[0] = '\0';
     }
 }
 

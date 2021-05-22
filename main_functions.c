@@ -49,17 +49,25 @@ void set(char *path, char *val){
          * it exists */
         if (ptr->value != NULL)
             remove_from_value_table(ptr);
+        /* else frees previous value */
+        else
+            free(ptr->value);
 
-        /* Frees previous value and initializes a new value */
-        free(ptr->value);
-        ptr->value = (char *) malloc(sizeof(char) * strlen(val));
-        check_OOM(ptr->value);
+        if (strcmp("", val) == 0 || val == NULL){
+            ptr->value = NULL;
+            return;
+        }
 
-        strcpy(ptr->value, val);
+        else {
 
-        /* Updates pointer value on hash table */
-        insert_value_table(ptr);
-        return;
+            ptr->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
+            check_OOM(ptr->value);
+            strcpy(ptr->value, val);
+
+            /* Updates pointer value on hash table */
+            insert_value_table(ptr);
+            return;
+        }
     }
 
     /*Otherwise, all the paths leading to path that are not created must be

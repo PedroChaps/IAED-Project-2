@@ -64,11 +64,13 @@ int hash(char *v, int M){
 /* Find a path associated to a node pointer in the hash table */
 Link find_hash_node_by_path(char *path){
     /* Hashes the path to find the index where it belongs */
-    int i = hash(path, HASH_SIZE);
+    int i;
+    Link ptr;
+    i = hash(path, HASH_SIZE);
 
     /* Searches on the table's corresponding index for the node pointer that
      * the wanted path is associated to */
-    Link ptr = search_list_by_path(Path_Table[i], path);
+    ptr = search_list_by_path(Path_Table[i], path);
 
     return ptr;
 }
@@ -76,11 +78,13 @@ Link find_hash_node_by_path(char *path){
 /* Find a value associated to a node pointer in the hash table */
 Link find_hash_node_by_value(char *value){
     /* Hashes the path to find the index where it belongs */
-    int i = hash(value, HASH_SIZE);
+    int i;
+    Link ptr;
 
+    i = hash(value, HASH_SIZE);
     /* Searches on the table's corresponding index for the node pointer that
      * the wanted value is associated to */
-    Link ptr = search_list_by_value(Value_Table[i], value);
+    ptr = search_list_by_value(Value_Table[i], value);
 
     return ptr;
 }
@@ -89,7 +93,9 @@ Link find_hash_node_by_value(char *value){
 /* Insert a node pointer in the hash table, by path. */
 void insert_path_table(Link node_ptr){
     /* Hashes the node's path_name */
-    int i = hash(node_ptr->path_name, HASH_SIZE);
+    int i;
+
+    i = hash(node_ptr->path_name, HASH_SIZE);
     /* Inserts the node pointer on the beginning of the right index */
     Path_Table[i] = insertBegin(Path_Table[i], node_ptr);
 
@@ -97,8 +103,14 @@ void insert_path_table(Link node_ptr){
 
 /* Insert a node pointer in the hash table, by value. */
 void insert_value_table(Link node_ptr){
-    /* Hashes the node's path_name */
-    int i = hash(node_ptr->value, HASH_SIZE);
+
+    int i;
+    /* It's possible for a value to not be defined.
+     * Verifies first if it exists */
+    if (node_ptr->value == NULL)
+        return;
+    /* Hashes the node's value */
+    i = hash(node_ptr->value, HASH_SIZE);
     /* Inserts the node pointer on the beginning of the right index */
     Value_Table[i] = insertBegin(Value_Table[i], node_ptr);
 
@@ -108,14 +120,21 @@ void insert_value_table(Link node_ptr){
 /* Remove a node pointer in the hash table, by path. */
 void remove_from_path_table(Link node_ptr){
 
-    int i = hash(node_ptr->path_name, HASH_SIZE);
+    int i;
+
+    i = hash(node_ptr->path_name, HASH_SIZE);
     Path_Table[i] = remove_elem(Path_Table[i], node_ptr);
 }
 
-/* Remove a node pointer in the hash table, by value. */
+/* Remove a node pointer from the value table. */
 void remove_from_value_table(Link node_ptr){
-
-    int i = hash(node_ptr->value, HASH_SIZE);
+    int i;
+    /* It's possible for a value to not be defined.
+     * Verifies first if it exists */
+    if (node_ptr->value == NULL) {
+        return;
+    }
+    i = hash(node_ptr->value, HASH_SIZE);
     Value_Table[i] = remove_elem(Value_Table[i], node_ptr);
 }
 void free_hash_tables(){
@@ -178,8 +197,7 @@ S_Link insert_sorted_by_path(Link ptr, S_Link head){
 }
 
 
-S_Link NEW(Link node_ptr)
-{
+S_Link NEW(Link node_ptr){
     S_Link x;
 
     x = (S_Link) malloc(sizeof(s_Node));
@@ -239,6 +257,7 @@ S_Link remove_elem(S_Link head, Link ptr_rm) {
                 head = t->next;
             else
                 prev->next = t->next;
+
             free(t);
             break;
         }
@@ -262,6 +281,7 @@ Link search_list_by_value(S_Link head, char *value){
     Link ptr = NULL;
     S_Link t;
     int min;
+
     for(t = head; t != NULL; t = t->next)
         if(strcmp(t->ptr->value, value) == 0) {
             /* if first value */
@@ -303,7 +323,12 @@ void free_list(S_Link head){
 
     S_Link ptr;
 
+    if (head == NULL){
+        return;
+    }
+
     ptr = head->next;
+
     /* Frees head*/
     free(head);
     while(ptr != NULL){

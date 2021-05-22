@@ -144,10 +144,12 @@ void free_hash_tables(){
 
         if (Path_Table[i] != NULL){
             free_list(Path_Table[i]);
+            Path_Table[i] = NULL;
         }
 
         if (Value_Table[i] != NULL){
             free_list(Value_Table[i]);
+            Value_Table[i] = NULL;
         }
     }
     free(Path_Table);
@@ -280,23 +282,25 @@ Link search_list_by_path(S_Link head, char *path){
 Link search_list_by_value(S_Link head, char *value){
     Link ptr = NULL;
     S_Link t;
-    int min;
-
-    for(t = head; t != NULL; t = t->next)
-        if(strcmp(t->ptr->value, value) == 0) {
-            /* if first value */
-            if (ptr == NULL){
-                ptr = t->ptr;
-                min = t->ptr->id;
-            }
-            /* if not the first value (path has been attributed already) */
-            else if (t->ptr->id < min) {
-                /* If the id is less than min, a candidate is found.
-                 * min is updated to the new minimum.*/
-                ptr = t->ptr;
-                min = t->ptr->id;
-            }
+    int oldest;
+    /* Two cycles. The purpose of first one is to find the first node that
+     * has the same value, in order to give oldest a value. */
+    for(t = head; t != NULL; t = t->next) {
+        if (strcmp(t->ptr->value, value) == 0) {
+            ptr = t->ptr;
+            oldest = t->ptr->id;
+            break;
         }
+    }
+    /* Now, the cycle continues but verifies first if the id is less than
+     * the oldest (the means the node is older) and only then compares the
+     * string. (More efficient). */
+    for(; t != NULL; t = t->next) {
+        if (t->ptr->id < oldest && strcmp(t->ptr->value, value) == 0){
+            ptr = t->ptr;
+            oldest = t->ptr->id;
+        }
+    }
     return ptr;
 
 }

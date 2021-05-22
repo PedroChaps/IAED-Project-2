@@ -58,7 +58,7 @@ int main() {
                 /* Index of where the \0 was inserted on the buffer */
                 i = read_path(buffer);
                 /* Inserts the value on the next index */
-                read_value(buffer_fixed, i+1);
+                read_value(buffer, i+1);
                 aux = &buffer[i+1];
                 set(buffer, aux);
                 break;

@@ -10,6 +10,7 @@ static long int nodes_number;
  * verify if the pointer returned by Malloc is NULL.*/
 void check_OOM(void *ptr){
     if (ptr == NULL){
+
         printf("No memory\n");
         exit(EXIT_SUCCESS);
     }

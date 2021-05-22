@@ -5,7 +5,7 @@
 
 void create_paths_to_path(char *path);
 Link find_parent_path(Link node);
-void free_node_down_right(Link node);
+Link free_node_down_right(Link node);
 
 
 /* Prints all the commands available */
@@ -195,6 +195,7 @@ void list(char *path){
     }
 
     print_list_basic(temp_lst);
+    free_list(temp_lst);
 
 }
 
@@ -256,16 +257,14 @@ void delete(char *path){
         node->next_right = NULL;
         free_node_down_right(node);
 
-        /* Sets the freed node to NULL to have control */
-        node = NULL;
     }
 
     /* if the path to be deleted is Root, just has to free every node to the
-     * right and down of the first child */
+     * right and down of the first child and the child */
     else {
-        free_node_down_right(node->next_down);
+        node->next_down = free_node_down_right(node->next_down);
         /* Sets the freed node to NULL to have control */
-        node->next_down = NULL;
+
     }
 }
 
@@ -336,7 +335,7 @@ void create_paths_to_path(char *full_path){
         /* Reverts '\0' and discounts 1 on count */
         for(; *ptr != '\0'; ptr++);
         *ptr = '/'; cont--;
-        /* Creates the new path, without value */
+        /* Creates the new path, without value (NULL) */
         new = new_node(full_path, NULL, aux);
         insert_tables(new);
     }
@@ -382,22 +381,22 @@ Link find_parent_path(Link node){
 }
 
 /* Frees node, its brothers and every node below it */
-void free_node_down_right(Link node){
+Link free_node_down_right(Link node){
 
     if (node == NULL)
-        return;
+        return NULL;
 
     if (node->next_down != NULL)
-        free_node_down_right(node->next_down);
+        node->next_down = free_node_down_right(node->next_down);
 
     if (node->next_right != NULL)
-        free_node_down_right(node->next_right);
+        node->next_right = free_node_down_right(node->next_right);
 
-    if (strcmp("/", node->path_name) != 0) {
-        remove_from_path_table(node);
-        remove_from_value_table(node);
-        free_node(node);
-    }
+    remove_from_path_table(node);
+    remove_from_value_table(node);
+    node = free_node(node);
+    return node;
+
 }
 
 

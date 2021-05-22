@@ -100,7 +100,7 @@ void read_value(char Buffer[], int i){
 
     /* Checks if multiple spaces / tabs were inserted on the end.
      * Places '\0' on the last character */
-    while(Buffer[i--] == ' ' || Buffer[i] == '\t');
+    while(Buffer[--i] == ' ' || Buffer[i] == '\t');
     Buffer[i+1] = '\0';
 
 }

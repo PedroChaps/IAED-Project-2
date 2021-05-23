@@ -466,7 +466,7 @@ Link * mergesort(Link *list, int left, int right, int last_path_i){
 Link * merge(Link *list, int left, int m, int right, int last_path_i){
     int i, j, k;
 
-    Link *aux = (Link *) malloc(sizeof(Link) * (right - left + 1));
+    Link *aux = (Link *) malloc(sizeof(Link) * (right - left + 2));
     if (aux == OUT_OF_MEMORY)
         return OUT_OF_MEMORY;
 

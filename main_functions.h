@@ -3,7 +3,7 @@
 
 #include "hash.h"
 
-
+/* All the commands and their descriptions */
 #define COMMAND1 "help"
 #define COMMAND2 "quit"
 #define COMMAND3 "set"
@@ -22,23 +22,23 @@
 #define COMMAND7_I "Procura o caminho dado um valor."
 #define COMMAND8_I "Apaga um caminho e todos os subcaminhos."
 
+
+/* The two possible errors */
 #define ERROR1 "not found\n"
 #define ERROR2 "no data\n"
 
+/* Used in a state variable */
 #define FOUND 1
 #define NOT_FOUND 0
 
-
-
+/* All the main functions */
 void help();
 void quit(Link Hierarchy_list);
 void set(char *path, char *val);
-void print_all_hierarchy(Link head);
+void print(Link head);
 void find(char *path);
 void list(char *path);
 void search(char *value);
 void delete(char *path);
-
-void WIP_print_all_hierarchy_including_no_values(Link head);
 
 #endif

@@ -1,11 +1,8 @@
 #include "main_functions.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-void create_paths_to_path(char *path);
-Link find_parent_path(Link node);
-Link free_node_down_right(Link node);
 
 
 /* Prints all the commands available */
@@ -21,45 +18,65 @@ void help(){
 
 }
 
+
+
+/* Quits the program, deleting all the allocated memory:
+ *  Deletes everything below the Hierarchy List (root);
+ *  Frees the Hierarchy List name and Node;
+ *  Frees both hash tables;
+ *  Quits the program. */
 void quit(Link Hierarchy_list){
     delete("/");
+
     free(Hierarchy_list->path_name);
     free(Hierarchy_list);
+
     free_hash_tables();
+
     exit(EXIT_SUCCESS);
 }
 
 
+/* Prototype of the function create_paths_to_path.
+ * Creates all the sub-paths leading to the path.
+ * If the input is "/a/b/c", creates the sub-paths "/a" and "/a/b", if not
+ * created before.
+ * Used on the next function. */
+void create_paths_to_path(char *path);
+
 /* Sets a value to a specified path */
 void set(char *path, char *val){
 
-
-    /*Verifies first if the path exists */
-    /*If it does, only alters it's value */
     Link ptr;
-
+    /* Verifies if path is NULL */
     if (strcmp("", path) == 0 || path == NULL){
         return;
     }
 
+    /*Verifies if the path has already been created by finding the corresponding
+     * node on the Path Table.
+     * Pointer can either have an address which points to the Node: In this case
+     * alters the value; Or can can be NULL, which means it hasn't been created:
+     * creates all the sub-paths that lead to path */
     ptr = find_hash_node_by_path(path);
 
     if (ptr != NULL){
-        /* Removes old entry from the value hash table, verifying first if
-         * it exists */
-        if (ptr->value != NULL)
+        /* If pointer already had a value, removes old entry from the value hash
+         * table and frees the value */
+        if (ptr->value != NULL) {
             remove_from_value_table(ptr);
-        /* else frees previous value */
-        else
             free(ptr->value);
+        }
 
+
+        /* If the value from the input is NULL, also sets the value to NULL */
         if (strcmp("", val) == 0 || val == NULL){
             ptr->value = NULL;
             return;
         }
-
         else {
-
+            /* Allocates memory to the value and copies the value from the
+             * input */
             ptr->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
             check_OOM(ptr->value);
             strcpy(ptr->value, val);
@@ -70,10 +87,11 @@ void set(char *path, char *val){
         }
     }
 
+
     /*Otherwise, all the paths leading to path that are not created must be
      * created first.
      * Eg. If the objective is to "set /a/b/c/d hi" but / and /a are the only
-     * paths that exist, /a/b, /a/b/c and /a/b/c/d must be created first,
+     * paths that exist, "/a/b", "/a/b/c" and "/a/b/c/d" must be created first,
      * without any value associated, and only then the value is associated to
      * /a/b/c/d */
 
@@ -86,59 +104,35 @@ void set(char *path, char *val){
 }
 
 
-/* Prints all the paths and it's values */
-void print_all_hierarchy(Link head){
 
+/* Prints all the paths and it's values */
+void print(Link head){
+    /* Recursive function. Stop case is when head is NULL. */
     if (head == NULL){
         return;
     }
-    /*WIP test with other downs and rights (currently I cant set new values besides
-     * forcing a new_node). */
-
-
-    if (head->value != NULL){
-        printf("%s %s\n", head->path_name, head->value);
-    }
-    /* The order of printing is down (deepness comes first) and then right
-     * (since the insertion order is preserved when going right). */
-    print_all_hierarchy(head->next_down);
-    print_all_hierarchy(head->next_right);
-    /* Only prints if the path has a value */
-}
-
-/* Prints all the paths and it's values */
-
-void WIP_print_all_hierarchy_including_no_values(Link head){
-
-    if (head == NULL){
-        return;
-    }
-    /*WIP test with other downs and rights (currently I cant set new values besides
-     * forcing a new_node). */
-
-
+    /* Only prints if head has a value */
     if (head->value != NULL){
         printf("%s %s\n", head->path_name, head->value);
     }
 
-    else{
-        printf("%s ~NULL~\n", head->path_name);
-    }
     /* The order of printing is down (deepness comes first) and then right
      * (since the insertion order is preserved when going right). */
-    WIP_print_all_hierarchy_including_no_values(head->next_down);
-    WIP_print_all_hierarchy_including_no_values(head->next_right);
-    /* Only prints if the path has a value */
+    print(head->next_down);
+    print(head->next_right);
 }
+
+
 
 /* Finds what value a specified path has */
 void find(char *path){
 
+    Link ptr;
+
     /* finds the path on the hash table.
      * if the path is not found, a NULL pointer is returned.
-     * if the path is found but it has no value, it's value is NULL */
+     * if the path is found but it has no value, it's value is NULL. */
 
-    Link ptr;
     ptr = find_hash_node_by_path(path);
 
     if (ptr == NULL){
@@ -161,16 +155,19 @@ void find(char *path){
 
 /* Lists all the next paths (children) of path */
 void list(char *path){
-    /* Var path is the parent. The objective is to list all children ordered
-     * alphabetically.
-     * A parallel simple list is created, that stores sorted pointers to the
-     * corresponding nodes. Then, prints the list.*/
+
     Link ptr;
     Link aux;
     S_Link temp_lst;
 
     ptr = find_hash_node_by_path(path);
     temp_lst = NULL;
+
+    /* path is the parent. The objective is to list all children ordered
+     * alphabetically.
+     * A parallel simple List is created, that stores sorted pointers to the
+     * corresponding nodes.
+     * Then, prints the list.*/
 
     /* If path has no string, list was called without arguments, so lists root */
     if (strcmp("", path) == 0 || path == NULL) {
@@ -179,7 +176,6 @@ void list(char *path){
     }
 
     /* Verifies first if the path exists OR if it has at least one child. */
-
     if (ptr == NULL){
         printf(ERROR1);
         return;
@@ -189,15 +185,17 @@ void list(char *path){
     }
 
     /* Since the path exists and has at least one child, all of it's children
-     * will be compared and inserted sorted on a new auxiliary simple list */
+     * will be compared and inserted sorted on a new auxiliary simple List */
     for (aux = ptr->next_down; aux != NULL; aux=aux->next_right){
         temp_lst = insert_sorted_by_path(aux, temp_lst);
     }
-
+    /* Prints the list */
     print_list_basic(temp_lst);
+    /* Frees the list */
     free_list(temp_lst);
 
 }
+
 
 
 /* Searches for the oldest path that has a certain value */
@@ -205,6 +203,7 @@ void search(char *value){
 
     Link ptr;
 
+    /* Searches the Value Table for the node that has value as value */
     ptr = find_hash_node_by_value(value);
 
     /* if pointer is NULL, it means no path was found */
@@ -219,6 +218,11 @@ void search(char *value){
 
 
 
+/* Prototype of find_parent_path, which finds the Node that is parent of a
+ * specified Node.
+ * If Node's path is "/a/b/c", returns the Node which path is "/a/b" */
+Link find_parent_path(Link node);
+
 /* Deletes a path and all of it's sequential right and down nodes */
 void delete(char *path){
 
@@ -232,7 +236,7 @@ void delete(char *path){
         return;
     }
 
-    /*Finds the node associated with path and it's parent (in order to update
+    /* Finds the node associated with path and it's parent (in order to update
      * node's previous node's next). */
     node = find_hash_node_by_path(path);
 
@@ -240,7 +244,7 @@ void delete(char *path){
         printf("%s", ERROR1);
         return;
     }
-
+    /* Finds the parent */
     parent = find_parent_path(node);
     if (parent == NULL || parent->next_down == NULL){
         return;
@@ -263,8 +267,6 @@ void delete(char *path){
      * right and down of the first child and the child */
     else {
         node->next_down = free_node_down_right(node->next_down);
-        /* Sets the freed node to NULL to have control */
-
     }
 }
 
@@ -272,11 +274,12 @@ void delete(char *path){
 
 /* -------------------------- AUX Functions ----------------------------------*/
 
-/*     size = 7             /a\0b\0ca        */
 
 /* Creates all the missing paths that lead to a path */
 void create_paths_to_path(char *full_path){
+    /* State variable that indicates if an already existing path is found */
     int state = NOT_FOUND;
+    /* Counts number of '/' */
     unsigned int cont = 0;
     unsigned int size;
     Link aux, aux2, new;
@@ -323,11 +326,11 @@ void create_paths_to_path(char *full_path){
         }
     }
 
-    /* The cycle ends when an already created directory is found (on last case,
+    /* The cycle ended when an already created directory was found (on last case,
      * "/"). Now, all the missing directories must be created.
      * To do that, replenishes all the '\0' to '/', creating every path on each
      * step, until the number of '/' inserted is equal to the number of
-     * '\0' switched. */
+     * '\0' switched (when cont is 0). */
     ptr = full_path;
     while (cont != 0){
         /*Finds the pointer to the full path, which is guaranteed to exist */
@@ -341,13 +344,14 @@ void create_paths_to_path(char *full_path){
     }
 }
 
+
+
 /* Given a path, finds it's parent path.
- * If path /a/b/c exists, it's parent path is /a/b;
- * If path /a/b/c and /a/b/d exist, /a/b/d's parent path is still /a/b;
- * */
+ * If the path is /a/b/c, it's parent path is /a/b;
+ * If the path /a/b/c and /a/b/d exist, /a/b/d's parent path is still /a/b;
+ * uses an auxiliary pointer to find the last '/' and switch it to
+ * '\0' temporarily. */
 Link find_parent_path(Link node){
-    /* use an auxiliary pointer to find the last '/' and switch it to
-     * '\0' temporarily. */
 
     unsigned int size;
     char *ptr;
@@ -358,10 +362,12 @@ Link find_parent_path(Link node){
     }
 
     size = strlen(node->path_name);
+    /* Pointer that points to the last character */
     ptr = &node->path_name[size-1];
 
     /* Finds the last '/' and changes it to '\0' */
     for(; ptr != node->path_name && *ptr != '/' ; ptr--);
+
 
     /*if it stopped on root, the parent is root. Doesn't changes it to '\0' */
     if (ptr == node->path_name){
@@ -370,33 +376,16 @@ Link find_parent_path(Link node){
     else{
         /* ptr now points to '/'. Changes it to '\0' */
         *ptr = '\0';
-        /* aux points to the parent */
+        /* makes aux point to the parent */
         aux = find_hash_node_by_path(node->path_name);
         /* revert the string */
         *ptr = '/';
     }
-
+    /* Returns the parent node */
     return aux;
 
 }
 
-/* Frees node, its brothers and every node below it */
-Link free_node_down_right(Link node){
 
-    if (node == NULL)
-        return NULL;
-
-    if (node->next_down != NULL)
-        node->next_down = free_node_down_right(node->next_down);
-
-    if (node->next_right != NULL)
-        node->next_right = free_node_down_right(node->next_right);
-
-    remove_from_path_table(node);
-    remove_from_value_table(node);
-    node = free_node(node);
-    return node;
-
-}
 
 

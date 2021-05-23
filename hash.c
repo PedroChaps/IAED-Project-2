@@ -259,17 +259,7 @@ Link search_list_by_path(S_Link head, char *path){
 */
 /* Only prints the paths stored on the node pointers of each element of the
  * list */
-void print_list_basic(S_Link head){
-    /* Verifies if head is NULL */
-    if (head == NULL){
-        return;
-    }
-    /*prints the list */
-    for(; head != NULL; head = head->next){
-        printf("%s\n", get_last_path(head->ptr->path_name));
-    }
 
-}
 
 S_Link remove_elem(S_Link head, Link ptr_rm) {
     S_Link t, prev;
@@ -343,6 +333,26 @@ char *get_last_path(char *complete_path){
     }
     return ptr+1;
 }
+
+/* Returns the index of the last sub-path (index of the last slash + 1)
+ * Eg: from "/a/b/c" returns 5 */
+int get_last_path_index(char *complete_path){
+
+    char *ptr;
+    int i;
+    int len = strlen(complete_path);
+    /* Pointer points to the last character*/
+    ptr = &complete_path[len-1];
+    /* Pointer now points to the last slash */
+    for(i = len; *ptr != '/'; ptr--)
+        i--;
+
+    return i;
+}
+
+
+
+
 
 void free_list(S_Link head){
 

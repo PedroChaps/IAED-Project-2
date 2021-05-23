@@ -6,7 +6,9 @@
 Link create_paths_to_path(char *full_path);
 Link find_parent_path(Link node);
 Link free_node_down_right(Link node);
-
+void process_OUT_OF_MEMORY(Link Hierarchy_list);
+Link * mergesort(Link *list, int left, int right, int last_path_i);
+Link * merge(Link *list, int left, int m, int right, int last_path_i);
 
 /* Prints all the commands available */
 void help(){
@@ -61,12 +63,12 @@ void set(char *path, char *val, Link Hierarchy_list){
 
             ptr->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
             if (ptr->value == OUT_OF_MEMORY)
-                quit(Hierarchy_list);
+                process_OUT_OF_MEMORY(Hierarchy_list);
             strcpy(ptr->value, val);
 
             /* Updates pointer value on hash table */
             if (insert_value_table(ptr) == OUT_OF_MEMORY)
-                quit(Hierarchy_list);
+                process_OUT_OF_MEMORY(Hierarchy_list);
 
             return;
         }
@@ -81,7 +83,7 @@ void set(char *path, char *val, Link Hierarchy_list){
 
     /* Creates all the missing paths */
     if (create_paths_to_path(path) == OUT_OF_MEMORY)
-        quit(Hierarchy_list);
+        process_OUT_OF_MEMORY(Hierarchy_list);
     /* calls set again to set the value to the path that is now created */
     set(path, val, Hierarchy_list);
 
@@ -169,7 +171,9 @@ void list(char *path, Link Hierarchy_list){
      * corresponding nodes. Then, prints the list.*/
     Link ptr;
     Link aux;
-    S_Link temp_lst;
+    Link *temp_lst;
+    int len, i = 0;
+    int last_path_i;
 
     ptr = find_hash_node_by_path(path);
     temp_lst = NULL;
@@ -190,16 +194,46 @@ void list(char *path, Link Hierarchy_list){
         return;
     }
 
-    /* Since the path exists and has at least one child, all of it's children
-     * will be compared and inserted sorted on a new auxiliary simple list */
+    len = length(ptr->next_down);
+    /* In order to only compare the end of the path */
+    last_path_i = get_last_path_index(ptr->next_down->path_name);
+
+    temp_lst = (Link *) malloc(sizeof(Link) * len);
+    if (temp_lst == OUT_OF_MEMORY)
+        process_OUT_OF_MEMORY(Hierarchy_list);
+
+    /* Fills the temporary list */
+    for(aux = ptr->next_down; aux != NULL; aux=aux->next_right){
+        temp_lst[i++] = aux;
+    }
+    /* Sorts the list alphabetically */
+
+    if (mergesort(temp_lst, 0, len-1, last_path_i) == OUT_OF_MEMORY)
+        process_OUT_OF_MEMORY(Hierarchy_list);
+
+    /* Prints the list */
+
+    print_list_basic(temp_lst, len, last_path_i);
+
+
+
+
+/*
+
+
+
+ Since the path exists and has at least one child, all of it's children
+     * will be compared and inserted sorted on a new auxiliary simple list
+
     for (aux = ptr->next_down; aux != NULL; aux=aux->next_right){
         temp_lst = insert_sorted_by_path(aux, temp_lst);
         if (temp_lst == OUT_OF_MEMORY)
-            quit(Hierarchy_list);
+            process_OUT_OF_MEMORY(Hierarchy_list);
     }
 
     print_list_basic(temp_lst);
     free_list(temp_lst);
+*/
 
 }
 
@@ -411,3 +445,46 @@ Link free_node_down_right(Link node){
 }
 
 
+void process_OUT_OF_MEMORY(Link Hierarchy_list){
+    printf("No memory\n");
+    quit(Hierarchy_list);
+}
+
+
+Link * mergesort(Link *list, int left, int right, int last_path_i){
+    int m = (right+left)/2;
+    if (right <= left) return list;
+
+    mergesort(list, left, m, last_path_i);
+    mergesort(list, m+1, right, last_path_i);
+
+    if (merge(list, left, m, right, last_path_i) == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
+    return list;
+}
+
+Link * merge(Link *list, int left, int m, int right, int last_path_i){
+    int i, j, k;
+
+    Link *aux = (Link *) malloc(sizeof(Link) * (right - left + 1));
+    if (aux == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
+
+    for (i = m+1; i > left; i--)
+        aux[i-1] = list[i-1];
+    for (j = m; j < right; j++)
+        aux[right+m-j] = list[j+1];
+
+    for (k = left; k <= right; k++) {
+
+        if (strcmp(aux[j]->path_name + last_path_i, aux[i]->path_name + last_path_i) < 0 || i == m + 1)
+            list[k] = aux[j--];
+
+        else
+            list[k] = aux[i++];
+    }
+
+    free(aux);
+}
+
+/* Santo, nao verificas memoria no merge */

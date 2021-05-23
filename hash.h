@@ -18,7 +18,6 @@ Link start_list();
 S_Link NEW(Link node_ptr);
 S_Link insertBegin(S_Link head, Link node_ptr);
 S_Link insert_sorted_by_path(Link ptr, S_Link head);
-void print_list_basic(S_Link head);
 S_Link remove_elem(S_Link head, Link ptr_rm);
 
 Link search_list_by_path(S_Link head, char *path);
@@ -41,6 +40,8 @@ Link insert_tables(Link node);
 void free_hash_tables();
 
 void free_list(S_Link head);
+int get_last_path_index(char *complete_path);
+
 #define HASH_SIZE 32479
 
 

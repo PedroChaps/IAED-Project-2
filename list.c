@@ -198,3 +198,31 @@ Link free_node(Link node){
     return node;
 }
 
+int length(Link head) {
+    int count = 0;
+    Link x;
+
+    for(x = head; x != NULL; x = x->next_right)
+        count++;
+    return count;
+}
+
+void print_list_basic(Link *head, int len, int last_path_i){
+
+    int i;
+
+    for(i = 0; i < len; i++)
+        printf("%s\n", head[i]->path_name + last_path_i);
+
+
+/*
+*//* Verifies if head is NULL *//*
+if (head == NULL){
+    return;
+}
+*//*prints the list *//*
+for(; head != NULL; head = head->next){
+    printf("%s\n", get_last_path(head->ptr->path_name));
+}*/
+
+}

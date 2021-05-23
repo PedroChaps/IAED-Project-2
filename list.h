@@ -34,5 +34,6 @@ Link new_node(char *path, char *val, Link parent);
 Link remove_node_right(Link head, Link node_rm);
 Link free_node(Link node);
 
-
+int length(Link head);
+void print_list_basic(Link *head, int len, int last_path_i);
 #endif

@@ -477,6 +477,7 @@ Link * merge(Link *list, int left, int m, int right, int last_path_i){
 
     for (k = left; k <= right; k++) {
 
+
         if (strcmp(aux[j]->path_name + last_path_i, aux[i]->path_name + last_path_i) < 0 || i == m + 1)
             list[k] = aux[j--];
 
@@ -485,6 +486,7 @@ Link * merge(Link *list, int left, int m, int right, int last_path_i){
     }
 
     free(aux);
+    return list;
 }
 
 /* Santo, nao verificas memoria no merge */

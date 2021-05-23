@@ -28,8 +28,8 @@ Link search_list_by_value(S_Link head, char *value);
 S_Link* create_path_table();
 S_Link* create_value_table();
 
-void insert_path_table(Link node_ptr);
-void insert_value_table(Link node_ptr);
+S_Link insert_path_table(Link node_ptr);
+S_Link insert_value_table(Link node_ptr);
 
 void remove_from_path_table(Link node_ptr);
 void remove_from_value_table(Link node_ptr);
@@ -37,7 +37,7 @@ void remove_from_value_table(Link node_ptr);
 Link find_hash_node_by_path(char *path);
 Link find_hash_node_by_value(char *value);
 
-void insert_tables(Link node);
+Link insert_tables(Link node);
 void free_hash_tables();
 
 void free_list(S_Link head);

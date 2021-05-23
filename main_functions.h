@@ -32,10 +32,10 @@
 
 void help();
 void quit(Link Hierarchy_list);
-void set(char *path, char *val);
+void set(char *path, char *val, Link Hierarchy_list);
 void print_all_hierarchy(Link head);
 void find(char *path);
-void list(char *path);
+void list(char *path, Link Hierarchy_list);
 void search(char *value);
 void delete(char *path);
 

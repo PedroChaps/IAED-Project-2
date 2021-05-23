@@ -3,11 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* A static variable that counts the number of nodes created */
 static long int nodes_number;
 
 /* Verifies if the program is OOM (out of memory).
  * This function is only called when memory is allocated, in order to
  * verify if the pointer returned by Malloc is NULL.*/
+
+
 void check_OOM(void *ptr){
     if (ptr == NULL){
 
@@ -15,6 +18,7 @@ void check_OOM(void *ptr){
         exit(EXIT_SUCCESS);
     }
 }
+
 
 /* When a new node is created:
  *      their elements are filled;
@@ -27,12 +31,15 @@ Link new_node(char *path, char *val, Link parent){
     check_OOM(x);
     /* Fills x's information */
     x->path_name = (char *) malloc(sizeof(char) * (strlen(path) + 1));
-    check_OOM(x->path_name);
+    if (x->path_name == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
+
     strcpy(x->path_name, path);
 
     if (val != NULL) {
         x->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
-        check_OOM(x->value);
+        if (x->value == OUT_OF_MEMORY)
+            return OUT_OF_MEMORY;
         strcpy(x->value, val);
     }
     else {
@@ -55,13 +62,17 @@ Link create_list(){
 
     Link head;
     head = (Link) malloc(sizeof(Node));
-    check_OOM(head);
+    /*Memory doesn't need to be checked because this is one of the first
+     * functions to be called */
+    if (head == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
 
 
     nodes_number = 0;
     /* Saves the starting information */
     head->path_name = (char *) malloc(sizeof("/"));
-    check_OOM(head->path_name);
+    if (head->path_name == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
 
     strcpy(head->path_name, "/");
 

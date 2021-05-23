@@ -20,6 +20,7 @@ typedef struct node {
 typedef struct node* Link;
 
 
+#define OUT_OF_MEMORY NULL
 
 Link create_list();
 

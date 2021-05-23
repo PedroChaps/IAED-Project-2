@@ -10,10 +10,14 @@ void free_list(S_Link head);
 Link start_list(){
     Link Hierarchy_lst;
     /* creates both tables */
-    create_path_table();
-    create_value_table();
+    if (create_path_table() == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
+    if (create_value_table() == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
 
     Hierarchy_lst = create_list();
+    if (Hierarchy_lst == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
     insert_tables(Hierarchy_lst);
 
     return Hierarchy_lst;
@@ -25,7 +29,8 @@ S_Link* create_path_table(){
 
     /*Alloc a pointer which points to HASH_SIZE pointers */
     Path_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
-    check_OOM(Path_Table);
+    if (Path_Table == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
 
     memset(Path_Table, 0, sizeof(S_Link) * HASH_SIZE);
 
@@ -38,7 +43,8 @@ S_Link* create_value_table(){
 
     /*Alloc a pointer which points to HASH_SIZE pointers */
     Value_Table = (S_Link *) malloc(sizeof(S_Link) * HASH_SIZE);
-    check_OOM(Value_Table);
+    if (Value_Table == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
 
     memset(Value_Table, 0, sizeof(S_Link) * HASH_SIZE);
 
@@ -47,7 +53,7 @@ S_Link* create_value_table(){
 
 /* Hashes a string. Returns the index where it should be saved */
 int hash(char *v, int M){
-    int h, a = 31415, b = 27183;
+    long int h, a = 31415, b = 27183;
     if(v == NULL)
         return 0;
     for (h = 0; *v != '\0'; v++, a = a*b % (M-1)) {
@@ -55,7 +61,6 @@ int hash(char *v, int M){
     }
     return h;
 }
-
 
 /* Find a path associated to a node pointer in the hash table */
 Link find_hash_node_by_path(char *path){
@@ -87,28 +92,33 @@ Link find_hash_node_by_value(char *value){
 
 
 /* Insert a node pointer in the hash table, by path. */
-void insert_path_table(Link node_ptr){
+S_Link insert_path_table(Link node_ptr){
     /* Hashes the node's path_name */
     int i;
-
     i = hash(node_ptr->path_name, HASH_SIZE);
     /* Inserts the node pointer on the beginning of the right index */
     Path_Table[i] = insertBegin(Path_Table[i], node_ptr);
-
+    if (Path_Table[i] == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
+    else
+        return Path_Table[i];
 }
 
 /* Insert a node pointer in the hash table, by value. */
-void insert_value_table(Link node_ptr){
+S_Link insert_value_table(Link node_ptr){
 
     int i;
     /* It's possible for a value to not be defined.
      * Verifies first if it exists */
-    if (node_ptr->value == NULL)
-        return;
+
     /* Hashes the node's value */
     i = hash(node_ptr->value, HASH_SIZE);
     /* Inserts the node pointer on the beginning of the right index */
     Value_Table[i] = insertBegin(Value_Table[i], node_ptr);
+    if (Value_Table[i] == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
+    else
+        return Value_Table[i];
 
 }
 
@@ -152,9 +162,20 @@ void free_hash_tables(){
     free(Value_Table);
 }
 
-void insert_tables(Link node){
-    insert_path_table(node);
-    insert_value_table(node);
+Link insert_tables(Link node){
+    S_Link aux;
+    aux = insert_path_table(node);
+    if (aux == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
+
+    if(node->value != NULL) {
+        aux = insert_value_table(node);
+        if (aux == OUT_OF_MEMORY)
+            return OUT_OF_MEMORY;
+    }
+
+    return node;
+
 }
 
 /* --------------------- Simple List -------------------------- */
@@ -167,7 +188,8 @@ S_Link insert_sorted_by_path(Link ptr, S_Link head){
     S_Link new;
 
     new = (S_Link) malloc(sizeof(s_Node));
-    check_OOM(new);
+    if (new == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
 
     new->ptr = ptr;
     new->next = NULL;
@@ -199,7 +221,8 @@ S_Link NEW(Link node_ptr){
     S_Link x;
 
     x = (S_Link) malloc(sizeof(s_Node));
-    check_OOM(x);
+    if (x == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
 
     x->ptr = node_ptr;
     x->next = NULL;
@@ -214,6 +237,8 @@ S_Link insertBegin(S_Link head, Link node_ptr)
     S_Link x;
 
     x = NEW(node_ptr);
+    if (x == OUT_OF_MEMORY)
+        return OUT_OF_MEMORY;
     x->next = head;
     return x;
 }

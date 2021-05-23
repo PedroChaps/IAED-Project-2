@@ -1,6 +1,6 @@
 #include "main_functions.h"
 #include "terminal_read.h"
-
+#include <stdio.h>
 #define BUFFER_SIZE 65535
 
 /*
@@ -30,16 +30,17 @@
 
 int main() {
 
-
-    Link Hierarchy_lst = start_list();
-
-    /*test_stuff(Table, Hierarchy_lst, sorted_list);*/
-
-
     int command, i;
     char buffer_fixed[BUFFER_SIZE];
     char *buffer = buffer_fixed;
     char *aux;
+
+    Link Hierarchy_lst = start_list();
+    if (Hierarchy_lst == OUT_OF_MEMORY)
+        quit(Hierarchy_lst);
+    /*test_stuff(Table, Hierarchy_lst, sorted_list);*/
+
+
 
     while (1) {
 
@@ -58,9 +59,9 @@ int main() {
                 /* Index of where the \0 was inserted on the buffer */
                 i = read_path(buffer);
                 /* Inserts the value on the next index */
-                read_value(buffer, i+1);
-                aux = &buffer[i+1];
-                set(buffer, aux);
+                read_value(buffer, i + 1);
+                aux = &buffer[i + 1];
+                set(buffer, aux, Hierarchy_lst);
                 break;
 
             case PRINT:
@@ -74,7 +75,7 @@ int main() {
 
             case LIST:
                 read_path(buffer);
-                list(buffer_fixed);
+                list(buffer_fixed, Hierarchy_lst);
                 break;
 
             case SEARCH:
@@ -182,3 +183,14 @@ list("/", Table, HASH_SIZE);*/
 }
 */
 
+
+
+/* set /a/b/c 5
+ *
+ * /a/b/c existe?
+ *
+ * i = hash("/a/b/c")
+ * procurar table[i] algum no com "/a/b/c"
+ *
+ *
+ * */

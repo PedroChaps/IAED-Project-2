@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void create_paths_to_path(char *path);
+Link create_paths_to_path(char *full_path);
 Link find_parent_path(Link node);
 Link free_node_down_right(Link node);
 
@@ -29,9 +29,8 @@ void quit(Link Hierarchy_list){
     exit(EXIT_SUCCESS);
 }
 
-
 /* Sets a value to a specified path */
-void set(char *path, char *val){
+void set(char *path, char *val, Link Hierarchy_list){
 
 
     /*Verifies first if the path exists */
@@ -61,11 +60,14 @@ void set(char *path, char *val){
         else {
 
             ptr->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
-            check_OOM(ptr->value);
+            if (ptr->value == OUT_OF_MEMORY)
+                quit(Hierarchy_list);
             strcpy(ptr->value, val);
 
             /* Updates pointer value on hash table */
-            insert_value_table(ptr);
+            if (insert_value_table(ptr) == OUT_OF_MEMORY)
+                quit(Hierarchy_list);
+
             return;
         }
     }
@@ -78,10 +80,10 @@ void set(char *path, char *val){
      * /a/b/c/d */
 
     /* Creates all the missing paths */
-    create_paths_to_path(path);
-
+    if (create_paths_to_path(path) == OUT_OF_MEMORY)
+        quit(Hierarchy_list);
     /* calls set again to set the value to the path that is now created */
-    set(path, val);
+    set(path, val, Hierarchy_list);
 
 }
 
@@ -160,7 +162,7 @@ void find(char *path){
 
 
 /* Lists all the next paths (children) of path */
-void list(char *path){
+void list(char *path, Link Hierarchy_list){
     /* Var path is the parent. The objective is to list all children ordered
      * alphabetically.
      * A parallel simple list is created, that stores sorted pointers to the
@@ -174,7 +176,7 @@ void list(char *path){
 
     /* If path has no string, list was called without arguments, so lists root */
     if (strcmp("", path) == 0 || path == NULL) {
-        list("/");
+        list("/", Hierarchy_list);
         return;
     }
 
@@ -192,6 +194,8 @@ void list(char *path){
      * will be compared and inserted sorted on a new auxiliary simple list */
     for (aux = ptr->next_down; aux != NULL; aux=aux->next_right){
         temp_lst = insert_sorted_by_path(aux, temp_lst);
+        if (temp_lst == OUT_OF_MEMORY)
+            quit(Hierarchy_list);
     }
 
     print_list_basic(temp_lst);
@@ -275,7 +279,7 @@ void delete(char *path){
 /*     size = 7             /a\0b\0ca        */
 
 /* Creates all the missing paths that lead to a path */
-void create_paths_to_path(char *full_path){
+Link create_paths_to_path(char *full_path){
     int state = NOT_FOUND;
     unsigned int cont = 0;
     unsigned int size;
@@ -319,7 +323,10 @@ void create_paths_to_path(char *full_path){
              * with the parent being Root */
             aux2 = find_hash_node_by_path("/");
             new = new_node(full_path, NULL, aux2);
-            insert_tables(new);
+            if (new == OUT_OF_MEMORY)
+                return OUT_OF_MEMORY;
+            if (insert_tables(new) == OUT_OF_MEMORY)
+                return OUT_OF_MEMORY;
         }
     }
 
@@ -337,8 +344,12 @@ void create_paths_to_path(char *full_path){
         *ptr = '/'; cont--;
         /* Creates the new path, without value (NULL) */
         new = new_node(full_path, NULL, aux);
-        insert_tables(new);
+        if (new == OUT_OF_MEMORY)
+            return OUT_OF_MEMORY;
+        if (insert_tables(new) == OUT_OF_MEMORY)
+            return OUT_OF_MEMORY;
     }
+    return new;
 }
 
 /* Given a path, finds it's parent path.

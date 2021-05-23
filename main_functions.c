@@ -79,6 +79,7 @@ void set(char *path, char *val){
              * input */
             ptr->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
             check_OOM(ptr->value);
+
             strcpy(ptr->value, val);
 
             /* Updates pointer value on hash table */
@@ -366,7 +367,7 @@ Link find_parent_path(Link node){
     ptr = &node->path_name[size-1];
 
     /* Finds the last '/' and changes it to '\0' */
-    for(; ptr != node->path_name && *ptr != '/' ; ptr--);
+    for(; ptr != node->path_name && *ptr != '/'; ptr--);
 
 
     /*if it stopped on root, the parent is root. Doesn't changes it to '\0' */

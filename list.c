@@ -33,6 +33,7 @@ Link new_node(char *path, char *val, Link parent){
     /* Path */
     x->path_name = (char *) malloc(sizeof(char) * (strlen(path) + 1));
     check_OOM(x->path_name);
+
     strcpy(x->path_name, path);
 
 
@@ -44,12 +45,13 @@ Link new_node(char *path, char *val, Link parent){
     if (val != NULL) {
         x->value = (char *) malloc(sizeof(char) * (strlen(val) + 1));
         check_OOM(x->value);
+
         strcpy(x->value, val);
     }
     else {
         x->value = NULL;
     }
-    /* Next pointers*/
+    /* Next pointers */
     x->next_down = (x -> next_right = NULL);
 
     /* Id */
